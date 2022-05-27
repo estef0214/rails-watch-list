@@ -5,7 +5,8 @@
 <div>
   <% @lists.each do |list| %>
   <%# <p><%= list.bookmarks.first.movie.poster_url if list.bookmarks.count > 0 %>
-   <%= link_to (image_tag list.bookmarks.first.movie.poster_url, alt:"Movie Poster", width: 200), list_path(list) if list.bookmarks.count > 0 %>
+  <%# <% if list.bookmarks.count > 0  %>
+   <%# <%= link_to (image_tag list.bookmarks.first.movie.poster_url, alt:"Movie Poster", width: 200), list_path(list) %>
     <p><%= link_to list.name, list_path(list) %></p>
   <% end %>
 </div>
