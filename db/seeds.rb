@@ -21,14 +21,15 @@ url = 'http://tmdb.lewagon.com/movie/top_rated?page='
 page = 1
 movie_request = JSON.parse(URI.open("#{url}#{page}").read)
 add_movies_to_db(movie_request)
-total_pages = 300
+# total_pages = 300
 
-while page < total_pages
-  page += 1
-  puts "fetching page: #{page}"
-  new_movie_request = JSON.parse(URI.open("#{url}#{page}").read)
-  add_movies_to_db(new_movie_request)
+# while page < total_pages
+#   page += 1
+#   puts "fetching page: #{page}"
+#   new_movie_request = JSON.parse(URI.open("#{url}#{page}").read)
+#   add_movies_to_db(new_movie_request)
+# end
+
+List.all.each do |list|
+  5.times Bookmark.new(movie: Movie.all.sample, comment: Faker::Superhero.descriptor, list: list)
 end
-
-# random_movie = Movie.all.sample
-# 5.times List.new(random_)

@@ -1,6 +1,7 @@
 <h1><%= @list.name %></h1>
 
 <%= link_to "Back to your lists", lists_path %>
+<%= link_to "Add a boomark",  new_list_bookmark_path(@list) %>
 
 <div>
   <% @list.bookmarks.each do |bookmark| %>
@@ -8,8 +9,12 @@
       <img src=<%=bookmark.movie.poster_url%> />
       <div class="card-trip-infos">
         <div>
-          <h2><%=bookmark.movie.name%></h2>
+          <h2><%=bookmark.movie.title%></h2>
           <p><%=bookmark.movie.overview%></p>
+          <%= link_to "🗑",
+            bookmark_path(bookmark),
+            data: {turbo_method: :delete, turbo_confirm: "Are you sure?"}
+           %>
         </div>
       </div>
     </div>
