@@ -7,21 +7,28 @@
 #   Character.create(name: "Luke", movie: movies.first)
 # require "json"
 # require "open-uri"
+Movie.destroy_all
+# List.destroy_all
 
-# url = 'http://tmdb.lewagon.com/movie/top_rated'
-# user_serialized = URI.open(url).read
-# data = JSON.parse(user_serialized)
+def add_movies_to_db(movies_request)
+  movies_request['results'].each do |result|
+    p result
+    Movie.create!(title: result['title'], overview: result['overview'], poster_url: "https://image.tmdb.org/t/p/w500#{result['poster_path']}", rating: result['vote_average'])
+  end
+end
 
-# image_api_url = ''
-# image_seialized = URI.open(image_api_url).read
-# image_data = JSON.parse(image_seialized)
+url = 'http://tmdb.lewagon.com/movie/top_rated?page='
+page = 1
+movie_request = JSON.parse(URI.open("#{url}#{page}").read)
+add_movies_to_db(movie_request)
+total_pages = 300
 
+while page < total_pages
+  page += 1
+  puts "fetching page: #{page}"
+  new_movie_request = JSON.parse(URI.open("#{url}#{page}").read)
+  add_movies_to_db(new_movie_request)
+end
 
-# data.each do |result|
-#   Movie.create(title: data[title], overview: data[overview], poster_url: "#{image_data[base_url]}#{image_data[file_size]}#{data[poster_path]}", rating: data[vote_average])
-# end
-
-Movie.create(title: "Wonder Woman 1984", overview: "Wonder Woman comes into conflict with the Soviet Union during the Cold War in the 1980s", poster_url: "https://image.tmdb.org/t/p/original/8UlWHLMpgZm9bx6QYh0NFoq67TZ.jpg", rating: 6.9)
-Movie.create(title: "The Shawshank Redemption", overview: "Framed in the 1940s for double murder, upstanding banker Andy Dufresne begins a new life at the Shawshank prison", poster_url: "https://image.tmdb.org/t/p/original/q6y0Go1tsGEsmtFryDOJo3dEmqu.jpg", rating: 8.7)
-Movie.create(title: "Titanic", overview: "101-year-old Rose DeWitt Bukater tells the story of her life aboard the Titanic.", poster_url: "https://image.tmdb.org/t/p/original/9xjZS2rlVxm8SFx8kPC3aIGCOYQ.jpg", rating: 7.9)
-Movie.create(title: "Ocean's Eight", overview: "Debbie Ocean, a criminal mastermind, gathers a crew of female thieves to pull off the heist of the century.", poster_url: "https://image.tmdb.org/t/p/original/MvYpKlpFukTivnlBhizGbkAe3v.jpg", rating: 7.0)
+# random_movie = Movie.all.sample
+# 5.times List.new(random_)
