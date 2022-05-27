@@ -1,8 +1,11 @@
 <h1>All your lists:</h1>
 
+<%= link_to "Create new list", new_list_path %>
+
 <div>
   <% @lists.each do |list| %>
-    <%= link_to (image_tag list.first.bookmark.movie.poster_url, alt:"Movie Poster", width: 200), list_path(list)%>
+   <%# <%= link_to (image_tag list.first.bookmark.movie.poster_url, alt:"Movie Poster", width: 200), list_path(list)%>
+    <p><%= list.name %></p>
   <% end %>
 </div>
 
